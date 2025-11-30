@@ -1,0 +1,58 @@
+#!/usr/bin/env python3
+
+"""
+Created on 30 Nov 2025
+
+@author: Bruno Beloff (bbeloff@me.com)
+
+source repo: mrcs_web
+
+DESCRIPTION
+A launcher for the uvicorn server
+
+SYNOPSIS
+mrcs_fastapi.py [-h] [-t] [-i INDENT] [-v] [--version] [-r]
+
+EXAMPLES
+mrcs_fastapi.py -t -v -r
+
+RESOURCES
+"""
+
+import logging
+import sys
+
+import uvicorn
+
+from mrcs_core.sys.environment import Environment
+from mrcs_core.sys.logging import Logging
+from mrcs_web.cli.args.fastapi_args import FastAPIArgs
+
+
+# --------------------------------------------------------------------------------------------------------------------
+
+if __name__ == '__main__':
+
+    publisher = None
+
+    # ----------------------------------------------------------------------------------------------------------------
+
+    args = FastAPIArgs('a tool for publishing messages')
+
+    Logging.config('mrcs_fastapi', level=logging.INFO)
+    logger = Logging.getLogger()
+    logger.info(f'args: {args}')
+    logger.info(f'mode: {args.mode.value}')
+
+    Environment.set(args.mode)
+
+
+    # ----------------------------------------------------------------------------------------------------------------
+
+    try:
+        uvicorn.run('mrcs_web.app.main:app', reload=args.reload)
+
+    # ----------------------------------------------------------------------------------------------------------------
+
+    except KeyboardInterrupt:
+        print(file=sys.stderr)
