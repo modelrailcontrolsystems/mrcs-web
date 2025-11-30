@@ -1,8 +1,41 @@
+#!/usr/bin/env python3
+
 """
 Created on 27 Nov 2025
 
 @author: Bruno Beloff (bbeloff@me.com)
 
+MRCS_LOG_NAME=mrcs_fastapi; MRCS_LOG_LEVEL=20; MRCS_OPS_MODE=TEST; fastapi dev src/mrcs_web/app/main.py
+
 https://fastapi.tiangolo.com/tutorial/bigger-applications/#an-example-file-structure
+https://github.com/fastapi/fastapi/discussions/6055
+https://fastapi.tiangolo.com/advanced/events/#lifespan
 """
 
+from fastapi import FastAPI     # Depends,
+
+# from .dependencies import get_query_token, get_token_header
+# from .internal import admin
+
+from mrcs_web.app.routers import message_logger
+
+
+# --------------------------------------------------------------------------------------------------------------------
+
+app = FastAPI()     # dependencies=[Depends(get_query_token)]
+
+app.include_router(message_logger.router)
+# app.include_router(test_tool.router)
+
+# app.include_router(
+#     admin.router,
+#     prefix="/admin",
+#     tags=["admin"],
+#     dependencies=[Depends(get_token_header)],
+#     responses={418: {"description": "I'm a teapot"}},
+# )
+
+
+@app.get("/")
+async def root():
+    return {"id": "MRCS Web"}
