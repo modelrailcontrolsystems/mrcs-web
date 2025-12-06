@@ -3,17 +3,16 @@ Created on 27 Nov 2025
 
 @author: Bruno Beloff (bbeloff@me.com)
 
-Test tool (TST) API
-
-https://fastapi.tiangolo.com/tutorial/bigger-applications/#an-example-file-structure
+Test publisher tool (TST) API
 """
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
-from mrcs_core.messaging.message import Message
 from mrcs_core.messaging.mqclient import Publisher
 from mrcs_core.sys.environment import Environment
 from mrcs_core.sys.logging import Logging
+
+from mrcs_web.models.message import APIMessage
 
 
 # --------------------------------------------------------------------------------------------------------------------
@@ -23,7 +22,7 @@ env = Environment.get()
 Logging.config(env.log_name, level=env.log_level)
 logger = Logging.getLogger()
 
-logger.info(f'test_tool: {env}')
+logger.info(f'publish_tool starting')
 
 router = APIRouter()
 
@@ -33,10 +32,12 @@ publisher.connect()
 
 # --------------------------------------------------------------------------------------------------------------------
 
-@router.post("/tst/publish", tags=["messages"])
-async def publish(message: Message):
-    logger.info(f'publish:{message}')
-    # TODO: implement publish(..)
+@router.post('/tst/publish', tags=['messages'])
+async def publish(payload: APIMessage.Model):
+    logger.info(f'publish: {payload}')
+    message = APIMessage.construct_from_model(payload)
 
-    return None
+    if not message:
+        raise HTTPException(status_code=400, detail='publish: malformed payload')
 
+    await publisher.publish(message)
