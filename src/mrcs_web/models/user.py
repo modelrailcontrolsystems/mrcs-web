@@ -6,7 +6,7 @@ Created on 6 Dec 2025
 A structured representation of a user - received via the API
 """
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from mrcs_core.admin.user.user import User
 
@@ -18,8 +18,7 @@ class APIUser(User):
     # ----------------------------------------------------------------------------------------------------------------
 
     class InsertModel(BaseModel):
-        class Config:
-            extra = 'allow'
+        model_config = ConfigDict(extra='allow')
 
         email: str
         password: str
@@ -30,8 +29,7 @@ class APIUser(User):
 
 
     class UpdateModel(BaseModel):
-        class Config:
-            extra = 'allow'
+        model_config = ConfigDict(extra='allow')
 
         uid: str
         email: str
@@ -43,10 +41,10 @@ class APIUser(User):
     # ----------------------------------------------------------------------------------------------------------------
 
     @classmethod
-    def construct_from_insert_model(cls, model: InsertModel):
-        return cls.construct_from_jdict(model.model_dump())
+    def construct_from_insert_payload(cls, payload: InsertModel):
+        return cls.construct_from_jdict(payload.model_dump())
 
 
     @classmethod
-    def construct_from_update_model(cls, model: UpdateModel):
-        return cls.construct_from_jdict(model.model_dump())
+    def construct_from_update_payload(cls, payload: UpdateModel):
+        return cls.construct_from_jdict(payload.model_dump())
