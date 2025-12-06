@@ -71,6 +71,15 @@ def test_create_clash():
     assert response.status_code == 409
 
 
+def test_create_bad_email():
+    user = load_user('new_user.json')
+    jdict = JSONify.as_jdict(user)
+    jdict['email'] = 'JUNK'
+    jdict['password'] = 'pass'
+    response = client.post('/user/create/', json=jdict)
+    assert response.status_code == 400
+
+
 def test_create_bad_role():
     user = load_user('new_user.json')
     jdict = JSONify.as_jdict(user)
