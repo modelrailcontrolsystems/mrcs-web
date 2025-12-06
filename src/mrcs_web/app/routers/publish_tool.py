@@ -35,7 +35,11 @@ publisher.connect()
 @router.post('/tst/publish', tags=['messages'])
 async def publish(payload: APIMessage.Model):
     logger.info(f'publish: {payload}')
-    message = APIMessage.construct_from_model(payload)
+
+    try:
+        message = APIMessage.construct_from_payload(payload)
+    except ValueError as ex:
+        raise HTTPException(status_code=400, detail=f'publish: {ex}')
 
     if not message:
         raise HTTPException(status_code=400, detail='publish: malformed payload')

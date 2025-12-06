@@ -54,7 +54,7 @@ async def create(payload: APIUser.InsertModel):
     logger.info(f'create: {payload}')
 
     try:
-        user = APIUser.construct_from_insert_model(payload)
+        user = APIUser.construct_from_insert_payload(payload)
     except ValueError as ex:
         raise HTTPException(status_code=400, detail=f'create: {ex}')
 
@@ -71,9 +71,9 @@ async def update(payload: APIUser.UpdateModel):
     logger.info(f'update: {payload}')
 
     try:
-        user = APIUser.construct_from_update_model(payload)
+        user = APIUser.construct_from_update_payload(payload)
     except ValueError as ex:
-        raise HTTPException(status_code=400, detail=f'create: {ex}')
+        raise HTTPException(status_code=400, detail=f'update: {ex}')
 
     if not User.exists(user.uid):
         raise HTTPException(status_code=404, detail=f'update: user {user.uid} not found')

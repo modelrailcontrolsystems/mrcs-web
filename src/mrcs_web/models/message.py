@@ -24,8 +24,7 @@ class APIMessage(Message):
 
     # ----------------------------------------------------------------------------------------------------------------
 
-
     @classmethod
-    def construct_from_model(cls, model: Model):
-        return cls.construct_from_jdict(model.model_dump())
+    def construct_from_payload(cls, payload: Model):
+        return cls.construct_from_jdict(payload.model_dump())
 
