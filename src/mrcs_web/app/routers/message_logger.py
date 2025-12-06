@@ -23,16 +23,18 @@ env = Environment.get()
 Logging.config(env.log_name, level=env.log_level)
 logger = Logging.getLogger()
 
-logger.info(f'message_logger: {env}')
+logger.info(f'message_logger starting')
 
 router = APIRouter()
+
 recorder = MessageRecorder.construct(env.ops_mode)
 
 
 # --------------------------------------------------------------------------------------------------------------------
 
-@router.get("/mlg/latest", tags=["messages"])
+@router.get('/mlg/latest', tags=['messages'])
 async def latest_messages(limit: int = 10):
+    logger.info(f'latest_messages: {limit}')
     records = list(recorder.find_latest(limit))
 
     return JSONify.as_jdict(records)

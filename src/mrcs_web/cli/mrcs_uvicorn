@@ -8,25 +8,26 @@ Created on 30 Nov 2025
 source repo: mrcs_web
 
 DESCRIPTION
-A launcher for the uvicorn server
+A launcher for the Uvicorn ASGI web server
 
 SYNOPSIS
-mrcs_fastapi.py [-h] [-t] [-i INDENT] [-v] [--version] [-r]
+mrcs_uvicorn [-h] [-t] [-i INDENT] [-v] [--version] [-r]
 
 EXAMPLES
-mrcs_fastapi.py -t -v -r
+mrcs_uvicorn -t -v -r
 
 RESOURCES
 """
 
 import logging
+import os
 import sys
-
 import uvicorn
 
 from mrcs_core.sys.environment import Environment
 from mrcs_core.sys.logging import Logging
-from mrcs_web.cli.args.fastapi_args import FastAPIArgs
+
+from mrcs_web.cli.args.uvicorn_args import UvicornArgs
 
 
 # --------------------------------------------------------------------------------------------------------------------
@@ -37,9 +38,9 @@ if __name__ == '__main__':
 
     # ----------------------------------------------------------------------------------------------------------------
 
-    args = FastAPIArgs('a tool for publishing messages')
+    args = UvicornArgs('a launcher for the Uvicorn ASGI web server')
 
-    Logging.config('mrcs_fastapi', level=logging.INFO)
+    Logging.config('mrcs_uvicorn', level=logging.INFO)
     logger = Logging.getLogger()
     logger.info(f'args: {args}')
     logger.info(f'mode: {args.mode.value}')
@@ -49,8 +50,14 @@ if __name__ == '__main__':
 
     # ----------------------------------------------------------------------------------------------------------------
 
+    pieces = __file__.split(os.sep)
+    watched = os.sep.join(pieces[:-3])
+
+    if args.reload:
+        print(f'watched: {watched}')
+
     try:
-        uvicorn.run('mrcs_web.app.main:app', reload=args.reload)
+        uvicorn.run('mrcs_web.app.main:app', reload=args.reload, reload_dirs=[watched])
 
     # ----------------------------------------------------------------------------------------------------------------
 

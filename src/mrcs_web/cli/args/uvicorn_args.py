@@ -11,13 +11,13 @@ from mrcs_core.cli.args.mrcs_args import MRCSArgs
 
 # --------------------------------------------------------------------------------------------------------------------
 
-class FastAPIArgs(MRCSArgs):
+class UvicornArgs(MRCSArgs):
     """unix command line handler"""
 
     def __init__(self, description):
         super().__init__(description)
 
-        self._parser.add_argument("-r", "--reload", action="store_true", help='reload on changed source')
+        self._parser.add_argument('-r', '--reload', action='store_true', help='reload on changed source')
 
         self._args = self._parser.parse_args()
 
@@ -32,4 +32,4 @@ class FastAPIArgs(MRCSArgs):
     # ----------------------------------------------------------------------------------------------------------------
 
     def __str__(self, *args, **kwargs):
-        return f'FastAPIArgs:{{test:{self.test}, reload:{self.reload}, indent:{self.indent}, verbose:{self.verbose}}}'
+        return f'UvicornArgs:{{test:{self.test}, reload:{self.reload}, indent:{self.indent}, verbose:{self.verbose}}}'
