@@ -4,6 +4,9 @@ Created on 6 Dec 2025
 @author: Bruno Beloff (bbeloff@me.com)
 
 User account administration API
+
+http://127.0.0.1:8000/user/find_all
+http://127.0.0.1:8000/user/find/def49452-afe0-456a-beac-399c66eb7e95
 """
 
 from fastapi import APIRouter, HTTPException

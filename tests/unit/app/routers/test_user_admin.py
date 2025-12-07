@@ -4,6 +4,7 @@ Created on 6 Dec 2025
 @author: Bruno Beloff (bbeloff@me.com)
 
 https://fastapi.tiangolo.com/tutorial/testing/#extended-fastapi-app-file
+https://fastapi.tiangolo.com/tutorial/testing/#using-testclient
 """
 
 import json
