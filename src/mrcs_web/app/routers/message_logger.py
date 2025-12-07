@@ -5,6 +5,8 @@ Created on 27 Nov 2025
 
 Message logger (MLG) API
 
+http://127.0.0.1:8000/mlg/latest
+
 https://fastapi.tiangolo.com/tutorial/bigger-applications/#an-example-file-structure
 """
 

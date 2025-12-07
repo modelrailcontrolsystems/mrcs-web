@@ -44,4 +44,4 @@ async def publish(payload: APIMessage.Model):
     if not message:
         raise HTTPException(status_code=400, detail='publish: malformed payload')
 
-    await publisher.publish(message)
+    publisher.publish(message)
