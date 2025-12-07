@@ -16,7 +16,7 @@ from mrcs_core.data.json import JSONify
 from mrcs_core.sys.environment import Environment
 from mrcs_core.sys.logging import Logging
 
-from mrcs_web.models.user import APIUser
+from mrcs_web.models.user import APIUser, UserCreateModel, UserUpdateModel
 
 
 # --------------------------------------------------------------------------------------------------------------------
@@ -53,11 +53,11 @@ async def find(uid: str):
 
 
 @router.post('/user/create', status_code=201, tags=['users'])
-async def create(payload: APIUser.InsertModel):
+async def create(payload: UserCreateModel):
     logger.info(f'create: {payload}')
 
     try:
-        user = APIUser.construct_from_insert_payload(payload)
+        user = APIUser.construct_from_create_payload(payload)
     except ValueError as ex:
         raise HTTPException(status_code=400, detail=f'create: {ex}')
 
@@ -70,7 +70,7 @@ async def create(payload: APIUser.InsertModel):
 
 
 @router.put('/user/update', tags=['users'])
-async def update(payload: APIUser.UpdateModel):
+async def update(payload: UserUpdateModel):
     logger.info(f'update: {payload}')
 
     try:

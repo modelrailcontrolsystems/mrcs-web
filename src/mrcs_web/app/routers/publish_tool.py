@@ -12,7 +12,7 @@ from mrcs_core.messaging.mqclient import Publisher
 from mrcs_core.sys.environment import Environment
 from mrcs_core.sys.logging import Logging
 
-from mrcs_web.models.message import APIMessage
+from mrcs_web.models.message import APIMessage, MessageModel
 
 
 # --------------------------------------------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ publisher.connect()
 # --------------------------------------------------------------------------------------------------------------------
 
 @router.post('/tst/publish', tags=['messages'])
-async def publish(payload: APIMessage.Model):
+async def publish(payload: MessageModel):
     logger.info(f'publish: {payload}')
 
     try:

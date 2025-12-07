@@ -13,18 +13,16 @@ from mrcs_core.messaging.message import Message
 
 # --------------------------------------------------------------------------------------------------------------------
 
+class MessageModel(BaseModel):
+    routing: str
+    body: dict
+
+
+# --------------------------------------------------------------------------------------------------------------------
+
 class APIMessage(Message):
 
-    # ----------------------------------------------------------------------------------------------------------------
-
-    class Model(BaseModel):
-        routing: str
-        body: dict
-
-
-    # ----------------------------------------------------------------------------------------------------------------
-
     @classmethod
-    def construct_from_payload(cls, payload: Model):
+    def construct_from_payload(cls, payload: MessageModel):
         return cls.construct_from_jdict(payload.model_dump())
 

@@ -11,40 +11,38 @@ from pydantic import BaseModel, ConfigDict
 from mrcs_core.admin.user.user import User
 
 
+# ----------------------------------------------------------------------------------------------------------------
+
+class UserCreateModel(BaseModel):
+    model_config = ConfigDict(extra='allow')
+
+    email: str
+    password: str
+    role: str
+    must_set_password: bool
+    given_name: str
+    family_name: str
+
+
+class UserUpdateModel(BaseModel):
+    model_config = ConfigDict(extra='allow')
+
+    uid: str
+    email: str
+    role: str
+    given_name: str
+    family_name: str
+
+
 # --------------------------------------------------------------------------------------------------------------------
 
 class APIUser(User):
 
-    # ----------------------------------------------------------------------------------------------------------------
-
-    class InsertModel(BaseModel):
-        model_config = ConfigDict(extra='allow')
-
-        email: str
-        password: str
-        role: str
-        must_set_password: bool
-        given_name: str
-        family_name: str
-
-
-    class UpdateModel(BaseModel):
-        model_config = ConfigDict(extra='allow')
-
-        uid: str
-        email: str
-        role: str
-        given_name: str
-        family_name: str
-
-
-    # ----------------------------------------------------------------------------------------------------------------
-
     @classmethod
-    def construct_from_insert_payload(cls, payload: InsertModel):
+    def construct_from_create_payload(cls, payload: UserCreateModel):
         return cls.construct_from_jdict(payload.model_dump())
 
 
     @classmethod
-    def construct_from_update_payload(cls, payload: UpdateModel):
+    def construct_from_update_payload(cls, payload: UserUpdateModel):
         return cls.construct_from_jdict(payload.model_dump())

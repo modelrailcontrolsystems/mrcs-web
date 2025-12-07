@@ -6,6 +6,7 @@ Created on 27 Nov 2025
 @author: Bruno Beloff (bbeloff@me.com)
 
 http://127.0.0.1:8000/
+http://127.0.0.1:8000/docs
 
 MRCS_LOG_NAME=mrcs_fastapi; MRCS_LOG_LEVEL=20; MRCS_OPS_MODE=TEST; fastapi dev src/mrcs_web/app/main.py
 
