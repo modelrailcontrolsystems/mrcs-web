@@ -9,6 +9,8 @@ http://127.0.0.1:8000/user/find_all
 http://127.0.0.1:8000/user/find/def49452-afe0-456a-beac-399c66eb7e95
 """
 
+from typing import List
+
 from fastapi import APIRouter, HTTPException
 
 from mrcs_core.admin.user.user import User
@@ -16,7 +18,7 @@ from mrcs_core.data.json import JSONify
 from mrcs_core.sys.environment import Environment
 from mrcs_core.sys.logging import Logging
 
-from mrcs_web.models.user import APIUser, UserCreateModel, UserUpdateModel
+from mrcs_web.models.user import APIUser, UserCreateModel, UserUpdateModel, UserModel
 
 
 # --------------------------------------------------------------------------------------------------------------------
@@ -34,7 +36,7 @@ router = APIRouter()
 # --------------------------------------------------------------------------------------------------------------------
 
 @router.get('/user/find_all', tags=['users'])
-async def find_all():
+async def find_all() -> List[UserModel]:
     logger.info('find_all')
     users = list(User.find_all())
 
@@ -42,7 +44,7 @@ async def find_all():
 
 
 @router.get('/user/find/{uid}', tags=['users'])
-async def find(uid: str):
+async def find(uid: str) -> UserModel | None:
     logger.info(f'find: {uid}')
     user = User.find(uid)
 
@@ -53,7 +55,7 @@ async def find(uid: str):
 
 
 @router.post('/user/create', status_code=201, tags=['users'])
-async def create(payload: UserCreateModel):
+async def create(payload: UserCreateModel) -> UserModel:
     logger.info(f'create: {payload}')
 
     try:
@@ -70,7 +72,7 @@ async def create(payload: UserCreateModel):
 
 
 @router.put('/user/update', tags=['users'])
-async def update(payload: UserUpdateModel):
+async def update(payload: UserUpdateModel) -> None:
     logger.info(f'update: {payload}')
 
     try:
@@ -87,7 +89,12 @@ async def update(payload: UserUpdateModel):
 
 
 @router.delete('/user/delete/{uid}')
-async def delete(uid: str):
+async def delete(uid: str) -> None:
     logger.info(f'delete: {uid}')
-    User.delete(uid)
+
+    try:
+        User.delete(uid)
+    except RuntimeError as ex:
+        raise HTTPException(status_code=409, detail=f'delete: {ex}')
+
 

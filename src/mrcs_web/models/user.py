@@ -13,6 +13,19 @@ from mrcs_core.admin.user.user import User
 
 # ----------------------------------------------------------------------------------------------------------------
 
+class UserModel(BaseModel):
+    model_config = ConfigDict(extra='allow')
+
+    uid: str
+    email: str
+    role: str
+    must_set_password: bool
+    given_name: str
+    family_name: str
+    created: str
+    latest_login: str | None
+
+
 class UserCreateModel(BaseModel):
     model_config = ConfigDict(extra='allow')
 

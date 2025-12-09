@@ -6,6 +6,8 @@ Created on 3 Dec 2025
 A structured representation of a message - received via the API
 """
 
+from typing import Dict
+
 from pydantic import BaseModel
 
 from mrcs_core.messaging.message import Message
@@ -15,7 +17,14 @@ from mrcs_core.messaging.message import Message
 
 class MessageModel(BaseModel):
     routing: str
-    body: dict
+    body: Dict
+
+
+class MessageRecordModel(BaseModel):
+    uid: int
+    rec: str
+    routing: str
+    body: Dict
 
 
 # --------------------------------------------------------------------------------------------------------------------
