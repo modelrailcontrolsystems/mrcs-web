@@ -7,6 +7,7 @@ import {defineConfig, globalIgnores} from 'eslint/config'
 
 import reactX from 'eslint-plugin-react-x'
 import reactDom from 'eslint-plugin-react-dom'
+import prettier from "eslint-config-prettier";
 
 
 export default defineConfig([
@@ -32,5 +33,9 @@ export default defineConfig([
                 tsconfigRootDir: import.meta.dirname,
             },
         },
+        rules: {
+              "react/prop-types": "off",
+        },
+        prettier,
     },
 ])
