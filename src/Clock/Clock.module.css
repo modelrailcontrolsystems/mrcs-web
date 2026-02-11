@@ -1,0 +1,19 @@
+/*
+Created on 1 Feb 2026
+
+@author: @dcode-software, Bruno Beloff (bbeloff@me.com)
+
+A datetime display component
+
+https://www.youtube.com/watch?v=Vz4uwGYGl0E
+https://fonts.google.com/selection/embed
+*/
+
+.clock {
+    width: fit-content;
+    padding: 0.25em 0.5em;
+    font-size: 30px;
+    background: #242424;
+    color: white;
+    font-family: "Roboto Mono", monospace;
+}
